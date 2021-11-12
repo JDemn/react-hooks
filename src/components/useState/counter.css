@@ -1,0 +1,14 @@
+.containerPrincipal {
+    background-color: gray;
+    box-shadow: 1px 2px 4px 2px(106,106,106,0.5);
+    border-radius: 10px;
+    margin: 1rem;
+    padding: 16px;
+}
+.containerPrincipal:first-child {
+    color : white;
+}
+
+button {
+    margin-right: 1.5rem;
+}

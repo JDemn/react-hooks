@@ -1,0 +1,6 @@
+body {
+ padding: 2px;
+}
+.deslizable {
+    display: flex;
+}
