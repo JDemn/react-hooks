@@ -53,6 +53,18 @@ export const TodoApp = () => {
         dispatch(action);
         reset()
     }
+
+    const handleDelete=(todoId)=>{
+        console.log(todoId);
+
+        //generando la acción
+        const deleteAction = {
+            type : 'delete',
+            payload : todoId //dejamos el payload como el argumento de la funci[on]
+        }
+
+        dispatch(deleteAction);
+    }
     return (
         <div>
             <h2>Todo App ({state.length})</h2>
@@ -69,6 +81,7 @@ export const TodoApp = () => {
                                     <p className='text-center'>{index + 1}. {items.desc}</p>
                                     <button
                                         className='btn btn-danger'
+                                        onClick = { ()=> handleDelete(state.id) } //se pone la funci[on] handleDelete en un callback porque necesita un argumento 'sate.id'
                                     >
                                         Borrar
                                     </button>
