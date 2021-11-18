@@ -1,6 +1,4 @@
-import React from 'react'
-import { useReducer } from 'react';
-import { useEffect } from 'react';
+import React, { useEffect, useReducer } from 'react'
 import './styles.css';
 
 //reducer
@@ -12,7 +10,7 @@ import { useForm } from '../../hooks/useForm';
 
 const init = () => {
 
-    return JSON.parse(localStorage.getItem('state')) || []
+    return JSON.parse(localStorage.getItem('stateTodo')) || []
     // return [{
     //     id: new Date().getTime(),
     //     desc: 'Aprender React',
@@ -23,15 +21,15 @@ const init = () => {
 
 export const TodoApp = () => {
     // const [state, dispatch] = useReducer(todoReducer, initialState);
-    const [state, dispatch] = useReducer(todoReducer,[], init);
+    const [stateTodo, dispatch] = useReducer(todoReducer,[], init);
     const [{ description }, haleInputChange, reset] = useForm({
         description: ''
     });
 
     //guardar todos en local storage
     useEffect(() => {
-        localStorage.setItem('todos', JSON.stringify(state))
-    }, [state]);
+        localStorage.setItem('stateTodo', JSON.stringify(stateTodo))
+    }, [stateTodo]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -65,23 +63,35 @@ export const TodoApp = () => {
 
         dispatch(deleteAction);
     }
+    const handleToggle =(todoId)=> {
+        //creando el objeto action dentro del mismo dispatch
+        dispatch({
+            type : 'toggle',
+            payload : todoId
+        })
+    }
     return (
         <div>
-            <h2>Todo App ({state.length})</h2>
+            <h2>Todo App ({stateTodo.length})</h2>
             <hr />
             <div className='row'>
                 <div className='col-7'>
                     <ul className='list-group list-group-flush'>
                         {
-                            state.map((items, index) => (
+                            stateTodo.map((items, index) => (
                                 <li
                                     key={items.id}
                                     className="list-group-item"
                                 >
-                                    <p className='text-center'>{index + 1}. {items.desc}</p>
+                                    <p 
+                                        className = {'text-center', `${items.done&& 'complete'}`}
+                                        onClick = {()=> handleToggle( items.id )}
+                                    >
+                                        {index + 1}. {items.desc}
+                                    </p>
                                     <button
                                         className='btn btn-danger'
-                                        onClick = { ()=> handleDelete(state.id) } //se pone la funci[on] handleDelete en un callback porque necesita un argumento 'sate.id'
+                                        onClick = { ()=> handleDelete( items.id ) } //se pone la funci[on] handleDelete en un callback porque necesita un argumento 'sate.id'
                                     >
                                         Borrar
                                     </button>
