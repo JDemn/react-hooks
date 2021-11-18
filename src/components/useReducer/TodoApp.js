@@ -6,6 +6,7 @@ import { todoReducer } from './todoReducer';
 
 //custom hook
 import { useForm } from '../../hooks/useForm';
+import { TodoList } from './TodoList';
 
 
 const init = () => {
@@ -72,34 +73,16 @@ export const TodoApp = () => {
     }
     return (
         <div>
-            <h2>Todo App ({stateTodo.length})</h2>
+            <h2>Todo App ({ stateTodo.length })</h2>
             <hr />
             <div className='row'>
                 <div className='col-7'>
-                    <ul className='list-group list-group-flush'>
-                        {
-                            stateTodo.map((items, index) => (
-                                <li
-                                    key={items.id}
-                                    className="list-group-item"
-                                >
-                                    <p 
-                                        className = {'text-center', `${items.done&& 'complete'}`}
-                                        onClick = {()=> handleToggle( items.id )}
-                                    >
-                                        {index + 1}. {items.desc}
-                                    </p>
-                                    <button
-                                        className='btn btn-danger'
-                                        onClick = { ()=> handleDelete( items.id ) } //se pone la funci[on] handleDelete en un callback porque necesita un argumento 'sate.id'
-                                    >
-                                        Borrar
-                                    </button>
-                                </li>
-                            )
-                            )
-                        }
-                    </ul>
+                    {/* pasarle estas props al componente hijo (stateTodo, handleDelete, handleToggle) */}
+                    <TodoList 
+                        stateTodo = { stateTodo }
+                        handleDelete = { handleDelete }
+                        handleToggle = { handleToggle }
+                    />
                 </div>
                 <div className='col-5'>
                     <h4>Agregar TODO</h4>
